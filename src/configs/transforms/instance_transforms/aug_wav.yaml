@@ -1,0 +1,43 @@
+train:
+  get_spectrogram: # special key for getting spectrogram
+    _target_: torch.nn.Sequential
+    _args_:
+      - _target_: torchaudio.transforms.MelSpectrogram
+        sample_rate: 16000
+        n_fft: 400
+        win_length: 400
+        n_mels: 80
+        hop_length: 160
+      - _target_: src.transforms.LogTransform
+        eps: 1e-6
+      - _target_: src.transforms.Normalize
+        eps: 1e-5
+  audio: # name of the tensor on which we apply transform
+    _target_: torchvision.transforms.v2.Compose
+    transforms:
+      - _target_: src.transforms.wav_augs.Gain
+      - _target_: src.transforms.wav_augs.AddColoredNoise
+        min_snr_in_db: 10.0
+        max_snr_in_db: 30.0
+        p: 0.3
+        sample_rate: 16000
+        output_type: tensor
+      - _target_: src.transforms.wav_augs.BandPassFilter
+        min_center_frequency: 200
+        max_center_frequency: 4000
+        p: 0.2
+        sample_rate: 16000
+inference:
+  get_spectrogram:
+    _target_: torch.nn.Sequential
+    _args_:
+      - _target_: torchaudio.transforms.MelSpectrogram
+        sample_rate: 16000
+        n_fft: 400
+        win_length: 400
+        n_mels: 80
+        hop_length: 160
+      - _target_: src.transforms.LogTransform
+        eps: 1e-6
+      - _target_: src.transforms.Normalize
+        eps: 1e-5

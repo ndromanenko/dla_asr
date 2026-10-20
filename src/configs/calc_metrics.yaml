@@ -1,0 +1,18 @@
+defaults:
+  - model: conformer_model_s
+  - metrics: argmax_and_beam
+  - datasets: custom_dir # we do not want to run inference on training data
+  - dataloader: example
+  - transforms: augmentations
+  - _self_
+text_encoder:
+  _target_: src.text_encoder.CTCTextEncoder
+  beam_size: 5
+dataloader:
+  batch_size: 1
+inferencer:
+  device_tensors: ["spectrogram"] # which tensors should be on device (ex. GPU)
+  device: cuda # device name or "auto"
+  save_path: "predictions" # any name here, can be a dataset name
+  seed: 1
+  from_pretrained: "ckpt/model_best.pth" # path to the pretrained model

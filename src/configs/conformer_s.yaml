@@ -1,0 +1,39 @@
+defaults:
+  - model: conformer_model_s
+  - writer: cometml
+  - metrics: example
+  - datasets: other500
+  - dataloader: example
+  - transforms: augmentations
+  - _self_
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 3e-4
+  weight_decay: 1e-3
+lr_scheduler:
+  _target_: torch.optim.lr_scheduler.OneCycleLR
+  max_lr: 1e-3
+  pct_start: 0.1
+  steps_per_epoch: ${trainer.epoch_len}
+  epochs: ${trainer.n_epochs}
+  anneal_strategy: cos
+loss_function:
+  _target_: src.loss.CTCLossWrapper
+  zero_infinity: true
+text_encoder:
+  _target_: src.text_encoder.CTCTextEncoder
+  beam_size: 2
+trainer:
+  log_step: 1000
+  n_epochs: 50
+  max_grad_norm: 5
+  epoch_len: 1000
+  device_tensors: ["spectrogram", "text_encoded"]
+  resume_from: null
+  device: cuda
+  override: False
+  monitor: "min val_WER_(Argmax)"
+  save_period: 5
+  early_stop: ${trainer.n_epochs}
+  save_dir: "train_conformer_init_s"
+  seed: 1

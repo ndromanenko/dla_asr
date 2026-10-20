@@ -1,0 +1,4 @@
+defaults:
+  - instance_transforms: aug_wav
+  - batch_transforms: aug
+  - _self_
