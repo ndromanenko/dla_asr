@@ -137,17 +137,17 @@ class Inferencer(BaseTrainer):
                 metrics.update(met.name, met(**batch))
 
         batch_size = batch["log_probs"].shape[0]
+        decode = self.cfg_trainer.decode
         pred_texts = []
         for i in range(batch_size):
             audio_length = batch["log_probs_length"][i]
-            pred_text = self.text_encoder.ctc_beam_search(
-                batch["log_probs"][i, :audio_length]
-                .clone()
-                .exp()
-                .detach()
-                .cpu()
-                .numpy()
-            )
+            log_probs = batch["log_probs"][i, :audio_length].detach().cpu()
+            if decode == "argmax":
+                pred_text = self.text_encoder.ctc_decode(
+                    torch.argmax(log_probs, dim=-1).numpy()
+                )
+            else:
+                pred_text = self.text_encoder.ctc_beam_search(log_probs.exp().numpy())
             pred_texts.append(pred_text)
             utterance_id = Path(batch["audio_path"][i]).stem
 

@@ -14,5 +14,6 @@ inferencer:
   device_tensors: ["spectrogram"] # which tensors should be on device (ex. GPU)
   device: auto # device name or "auto"
   save_path: "predictions" # any name here, can be a dataset name
+  decode: beam # how to decode saved predictions: "beam" or "argmax"
   seed: 1
   from_pretrained: "ckpt/checkpoint_60epoch.pth" # path to the pretrained model
