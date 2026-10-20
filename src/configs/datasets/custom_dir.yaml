@@ -1,4 +1,4 @@
 test:
   _target_: src.datasets.CustomDirDataset
-  dir: "test_data"
+  dir: "test_audio"
   instance_transforms: ${transforms.instance_transforms.inference}

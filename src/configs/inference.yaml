@@ -7,12 +7,12 @@ defaults:
   - _self_
 text_encoder:
   _target_: src.text_encoder.CTCTextEncoder
-  beam_size: 5
+  beam_size: 10
 dataloader:
   batch_size: 1
 inferencer:
   device_tensors: ["spectrogram"] # which tensors should be on device (ex. GPU)
-  device: cuda # device name or "auto"
+  device: auto # device name or "auto"
   save_path: "predictions" # any name here, can be a dataset name
   seed: 1
-  from_pretrained: "ckpt/model_best.pth" # path to the pretrained model
+  from_pretrained: "ckpt/checkpoint_60epoch.pth" # path to the pretrained model

@@ -2,14 +2,14 @@ from pathlib import Path
 
 from huggingface_hub import hf_hub_download
 
-SAVE_DIR = Path(__file__).absolute().resolve().parent.parent / "ckpt"
+SAVE_DIR = Path(__file__).absolute().resolve().parent.parent / "dla_asr" / "ckpt"
 
 
 def main():
     SAVE_DIR.mkdir(exist_ok=True, parents=True)
     path = hf_hub_download(
         repo_id="romanenko02/conformer-asr",
-        filename="checkpoint_60epoch",
+        filename="checkpoint_60epoch.pth",
         local_dir=SAVE_DIR,
     )
     print(f"Model saved to {path}")
