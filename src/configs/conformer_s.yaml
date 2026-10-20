@@ -2,7 +2,7 @@ defaults:
   - model: conformer_model_s
   - writer: cometml
   - metrics: example
-  - datasets: other500
+  - datasets: all
   - dataloader: example
   - transforms: augmentations
   - _self_
@@ -25,7 +25,7 @@ text_encoder:
   beam_size: 2
 trainer:
   log_step: 1000
-  n_epochs: 50
+  n_epochs: 60
   max_grad_norm: 5
   epoch_len: 1000
   device_tensors: ["spectrogram", "text_encoded"]

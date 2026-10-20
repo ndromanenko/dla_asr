@@ -8,8 +8,8 @@ SAVE_DIR = Path(__file__).absolute().resolve().parent.parent / "ckpt"
 def main():
     SAVE_DIR.mkdir(exist_ok=True, parents=True)
     path = hf_hub_download(
-        repo_id="romanenko02/dla-asr-conformer",
-        filename="model_best.pth",
+        repo_id="romanenko02/conformer-asr",
+        filename="checkpoint_60epoch",
         local_dir=SAVE_DIR,
     )
     print(f"Model saved to {path}")
